@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pila</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">RECORRIDO POR PILA</h5>
+            </div>
+            <div class="modal-body">
+
+                <form class="form1">
+                    <div class="form-row align-items-center">
+                        <div class="form-group col-md-4">
+                        <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                        <select onchange="escucharSelect()" class="select_menu custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <option value="" selected>Menú de opciones para 'PILA'</option>
+                            <option value="insertar">Insertar Elemento</option>
+                            <option value="eliminar">Eliminar Elemento</option>
+                            <option value="mostrar">Mostrar</option>
+                            <option value="regresar">Regresar</option>
+                        </select>
+                        </div>
+                        <div style="display: none;" class="div_numero form-group col-md-4">
+                            <input type="number" class="numero form-control">
+                        </div>
+                        <div class="form-group col-md-4 align-items-center">
+                        <button  onclick="ejecutarConsulta()" type="button" class="btn btn-primary submit1">Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+                
+
+            </div>
+            <div class="modal-footer">
+                <div style="margin-bottom: 0 !important; display: none;" class="alert alert-primary col-md-12 text-center notificacion" role="alert"></div>
+                
+                <div class="div_pila col-md-12" style="display: none;">
+                    <table  class="table col-md-12">
+                        <thead>
+                            <tr>
+                                <th class="col-md-12 text-center" scope="col">Índice</th>
+                                <th class="col-md-12 text-center" scope="col">Contenido</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div> 
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //Esta línea carga el MODAL automáticamente al abrir la página actual
+        $(window).on('load',function(){
+            $('.modal').modal('show');
+        });
+
+        //Este metodo es para obtener la opción seleccionada del menú de 'Pila'
+        ejecutarConsulta = () => {
+            let valor = document.querySelector('.select_menu')
+            valor = valor.options[valor.selectedIndex].value
+
+            if(valor == 'insertar'){
+                //Aquí declaro el número a insertar
+                let numero = document.querySelector('.numero')
+                
+
+                //Aquí valido el número a insertar (básicamente si es un numero entero del 01 al 99)
+                
+                 if (numero.value % 1 == 0) {
+                     numero = parseInt(numero.value);
+                     if(numero > 0 && numero < 100){
+
+                      //Aquí creo el arreglo que guardaremos en session Storage
+                let arreglo = sessionStorage['arreglo']
+                if(arreglo == undefined || arreglo == '[]'){
+                    let array = new Array()
+                    array.push(numero)
+                    sessionStorage.setItem('arreglo', JSON.stringify(array))
+
+                    //Esta línea reinicia los campos del formulario a su estado original
+                    document.querySelector('.form1').reset()
+                    ocultarCampo('.div_numero')
+
+                    let mensaje = "El valor "+numero+" ha sido ingresado exitosamente."
+                    document.querySelector('.notificacion').textContent = mensaje
+                    //console.log("El valor ha sido ingresado exitosamente")
+                }else{
+                    let size = JSON.parse(sessionStorage['arreglo']).length
+                    if(size == 6){
+                        //Esta línea reinicia los campos del formulario a su estado original
+                        document.querySelector('.form1').reset()
+                        ocultarCampo('.div_numero')
+
+                        let mensaje = "Error al insertar el elemento: 'La pila está llena.'"
+                        document.querySelector('.notificacion').textContent = mensaje
+
+                        mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+                    }else{
+                        let array = JSON.parse(sessionStorage['arreglo'])
+                        array.push(numero)
+                        sessionStorage.setItem('arreglo', JSON.stringify(array))
+
+                        //Esta línea reinicia los campos del formulario a su estado original
+                        document.querySelector('.form1').reset()
+                        ocultarCampo('.div_numero')
+
+                        let mensaje = "El valor "+numero+" ha sido ingresado exitosamente."
+                        document.querySelector('.notificacion').textContent = mensaje
+
+                        mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+                    }
+
+                }
+                     } else {
+
+                                      let mensaje = "El valor "+numero+" fuera del rango"
+                        document.querySelector('.notificacion').textContent = mensaje
+
+                        mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+                     }
+
+    } else {
+         let mensaje = "El valor "+ numero.value +" es incorrecto."
+                        document.querySelector('.notificacion').textContent = mensaje;
+                            mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+    }
+
+  
+            }
+            else if(valor == 'eliminar'){
+                //Aquí creo el arreglo que guardaremos en session Storage
+                let arreglo = sessionStorage['arreglo']
+                if(arreglo == undefined || arreglo == '[]'){
+                    let mensaje = "El arreglo está vacio, no es posible eliminar valores."
+                        document.querySelector('.notificacion').textContent = mensaje
+
+                        mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+                }else{
+                    let array = JSON.parse(sessionStorage['arreglo'])
+                    let numero = array.pop()
+                    sessionStorage.setItem('arreglo', JSON.stringify(array))
+
+                    //Esta línea reinicia los campos del formulario a su estado original
+                    document.querySelector('.form1').reset()
+
+                    let mensaje = "El valor "+numero+" ha sido eliminado exitosamente."
+                        document.querySelector('.notificacion').textContent = mensaje
+
+                        mostrarCampo('.notificacion')
+                        setTimeout(function(){
+                            ocultarCampo('.notificacion')
+                        }, 5000)
+                }
+            }
+            else if(valor == 'mostrar'){
+                //Aquí creo el arreglo que guardaremos en session Storage
+                let arreglo = sessionStorage['arreglo']
+                if(arreglo == undefined || arreglo == '[]'){
+                    let array = []
+                    crearTabla(array)
+                    //Esta línea reinicia los campos del formulario a su estado original
+                    document.querySelector('.form1').reset()
+                    /*let size = 5
+                    for(index = size;index >= 0; index--) {
+                        console.log("Posición: "+index+", elemento: "+"")
+                    }*/
+                    //console.log("El arreglo está vacio, no es posible eliminar valores.")
+                }else{
+                    let array = JSON.parse(sessionStorage['arreglo'])
+                    crearTabla(array)
+                    //Esta línea reinicia los campos del formulario a su estado original
+                    document.querySelector('.form1').reset()      
+                }
+            }
+            else if(valor == 'regresar'){
+                window.open('index.html','_self',false)
+            }
+
+        }
+
+        escucharSelect = () => {
+            let valor = document.querySelector('.select_menu')
+            valor = valor.options[valor.selectedIndex].value
+            if(valor == 'insertar'){
+                mostrarCampo('.div_numero')
+            }else{
+                ocultarCampo('.div_numero')
+            }
+
+            if(valor == 'mostrar'){
+                let tbody = document.querySelector('.tbody')
+                
+                if(tbody != null){
+                    let table = document.querySelector('.table')
+                    table.removeChild(tbody)
+                }
+                mostrarCampo('.div_pila')
+            }else{
+                let tbody = document.querySelector('.tbody')
+                if(tbody != null){
+                    let table = document.querySelector('.table')
+                    table.removeChild(tbody)
+                }
+                ocultarCampo('.div_pila')
+            }
+        }
+
+        mostrarCampo = (elemento) => {
+            let campo = document.querySelector(elemento)
+            if (campo.style.display === "none") {
+                campo.style.display = "block"
+            }
+        }
+
+        ocultarCampo = (elemento) => {
+            let campo = document.querySelector(elemento)
+            if(campo.style.display === "block"){
+                campo.style.display = "none"
+            }
+        }
+
+        crearTabla = (array) =>{
+            let table = document.querySelector('.table')
+            let tbody = document.createElement('tbody')
+            tbody.classList.add("tbody")
+
+            let cima = array.length - 1
+            let size = 5
+                for(index = size;index >= 0; index--) {
+                    let tr = document.createElement('tr')
+                    if(index > cima){
+                        //console.log(index)
+                        //tr.classList.add("table-light")
+                        tr.classList.add("text-center")
+
+                        let td1 = document.createElement('td')
+                        td1.appendChild(document.createTextNode(index))
+                        tr.appendChild(td1)
+
+                        let td2 = document.createElement('td')
+                        td2.appendChild(document.createTextNode(""))
+                        tr.appendChild(td2)
+                    }else{
+                        if(index == cima){
+                            if(parseInt(index%2) == 0){
+                                tr.classList.add("table-primary")
+                                tr.classList.add("text-center")
+                            }else{
+                                tr.classList.add("table-success")
+                                tr.classList.add("text-center")
+                            }
+                            let td1 = document.createElement('td')
+                            td1.appendChild(document.createTextNode(index+" => CIMA"))
+                            tr.appendChild(td1)
+
+                            let td2 = document.createElement('td')
+                            td2.appendChild(document.createTextNode(array[index]))
+                            tr.appendChild(td2)
+                            //console.log("Posición: "+index+", elemento: "+array[index]+" **CIMA**")
+                        }else{
+                            
+                            if(parseInt(index%2) == 0){
+                                tr.classList.add("table-primary")
+                                tr.classList.add("text-center")
+                            }else{
+                                tr.classList.add("table-success")
+                                tr.classList.add("text-center")
+                            }
+                            let td1 = document.createElement('td')
+                            td1.appendChild(document.createTextNode(index))
+                            tr.appendChild(td1)
+
+                            let td2 = document.createElement('td')
+                            td2.appendChild(document.createTextNode(array[index]))
+                            tr.appendChild(td2)
+                            //console.log("Posición: "+index+", elemento: "+array[index])
+                        } 
+                    }  
+                    tbody.appendChild(tr)   
+                }
+                table.appendChild(tbody)
+        }
+    </script>    
+</body>
+</html>
+
+

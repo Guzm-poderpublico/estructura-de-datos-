@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Proyecto 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<STYLE type="text/css">
+  H5.tittle {text-align: center}
+ </STYLE>
+<body>
+
+
+    <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title"> Universidad Tecnológica de Panamá</h5>
+         
+                <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button-->
+        </div>
+        <div class="modal-body">
+                 <h5 class="tittle">Facultad de Sistemas Computacionales</h5>
+                 <h5 class="tittle">Estructura de Datos- PILA</h5>
+                                  <h5> Grupo:  </h5>
+                                  <h5> Integrantes </h5>
+                                 <div class="container">
+  <div class="row">
+    <div class="col-6">
+      Nombre
+    </div>
+    <div class="col-6">
+      Cédula
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+      Jennifer Rivera
+    </div>
+    <div class="col-6">
+      8-881-18
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+       Guzman Bu
+    </div>
+    <div class="col-6">
+      8-823-35
+    </div>
+</div>
+</div>
+                                  
+
+
+
+
+
+            <form class="form1">
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                    <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                    <select class="tipo_estructura custom-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option value="" selected>Seleccione una opción</option>
+                        <option value="pila">Pila</option>
+                        <option value="Cola">Cola</option>
+                        
+                        <!--option value="cola">Cola</option-->
+                    </select>
+                    </div>
+                    <div class="col-auto my-1">
+                    <button onclick="ejecutarPeticion()" type="button" class="btn btn-primary">Recorrer</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        </div>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+        //Esta línea carga el MODAL automáticamente al abrir la página actual.
+        $(window).on('load',function(){
+            $('.modal').modal('show');
+        });
+
+        ejecutarPeticion = () =>{
+            let valor = document.querySelector('.tipo_estructura')
+                valor = valor.options[valor.selectedIndex].value
+                if(valor == 'pila'){
+                    window.open('pila.html','_self',false)
+                }
+                else
+				{  				
+				    
+                    window.open('cola.html','_self',false)
+				
+				    
+				}
+		
+		
+		}
+		
+		
+		
+    </script>
+	
+	
+		
+	
+</body>
+</html>
